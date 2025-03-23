@@ -1,0 +1,15 @@
+langchain
+python-dotenv
+langchain-community
+langchain-core
+pandas
+langchain-groq
+streamlit
+langchain-text-splitters
+langchain-chroma
+langserve
+uvicorn
+fastapi
+sse-starlette
+pydantic
+langchain-huggingface
