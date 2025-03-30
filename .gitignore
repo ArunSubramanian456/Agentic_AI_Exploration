@@ -3,5 +3,6 @@
 **/.env
 **/db/
 **/my_venv/
+**/DNU/
 my_venv/
 .env
