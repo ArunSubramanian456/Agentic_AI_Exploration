@@ -79,12 +79,12 @@ contextualize_q_prompt = ChatPromptTemplate.from_messages([
 ])
 
 
-qa_prompt = ChatPromptTemplate.from_messages([
-    ("system", "You are a helpful AI assistant. Use the following context to answer the user's question."),
-    ("system", "Context: {context}"),
-    MessagesPlaceholder(variable_name="chat_history"),
-    ("human", "{input}")
-])
+# qa_prompt = ChatPromptTemplate.from_messages([
+#     ("system", "You are a helpful AI assistant. Use the following context to answer the user's question."),
+#     ("system", "Context: {context}"),
+#     MessagesPlaceholder(variable_name="chat_history"),
+#     ("human", "{input}")
+# ])
 
 vectorstore=None # variable to hold the vector store.
 sessionstore = {} # variable to hold the user session data
@@ -181,7 +181,6 @@ async def process_pdf_endpoint(file: UploadFile = File(...)):
     """
     try:
         # Save the uploaded file to the temp directory
-        
         file_path = os.path.join(temp_dir, file.filename)
         if os.path.exists(file_path):
             os.remove(file_path)
@@ -191,15 +190,18 @@ async def process_pdf_endpoint(file: UploadFile = File(...)):
         # Process the PDF and create the RAG chain
         global rag_chain_instance
         if rag_chain_instance is not None:
-            rag_chain_instance = None  # Reset the previous instance if it exists
+            # Reset the previous instance if it exists
+            rag_chain_instance = None  
         rag_chain_instance = process_pdf(file_path)
 
         return JSONResponse(content={"message": "PDF processed successfully!"})
 
     except Exception as e:
-        print(f"Error in /process_pdf/: {e}") #Debug
-        raise HTTPException(status_code=500, detail=f"Error: {str(e)}") # Raise an HTTP exception.
-
+        # Debug
+        print(f"Error in /process_pdf/: {e}") 
+        # Raise an HTTP exception.
+        raise HTTPException(status_code=500, detail=f"Error: {str(e)}") 
+    
 # Setup Data Validation using Pydantic
 class InvokeRequest(BaseModel):
     input: str  # The input field, as expected by your LangChain chain
@@ -213,15 +215,19 @@ async def invoke(request: InvokeRequest):
         
         data = request.model_dump()
         result = rag_chain_instance.invoke(data, config = {"configurable": {"session_id" : "default"}})
-        print(f"{sessionstore}") #Debug
+        # Debug
+        print(f"{sessionstore}")
         answer = result['answer']
-        sources = [doc.page_content for doc in result['context']] #extract page contents from documents
+        # extract page contents from documents
+        sources = [doc.page_content for doc in result['context']] 
 
         return JSONResponse(content={"answer": answer, "sources": sources})
 
     except Exception as e:
-        print(f"Error in /invoke: {e}") #Debug
-        raise HTTPException(status_code=500, detail=f"Error: {str(e)}") # Raise an HTTP exception.
+        # Debug
+        print(f"Error in /invoke: {e}")
+        # Raise an HTTP exception
+        raise HTTPException(status_code=500, detail=f"Error: {str(e)}") 
 
 
 @app.get("/", response_class=HTMLResponse)

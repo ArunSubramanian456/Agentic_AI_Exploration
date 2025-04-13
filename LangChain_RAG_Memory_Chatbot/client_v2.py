@@ -28,16 +28,21 @@ if uploaded_file is not None:
         st.info("Processing document...")
         url = "http://localhost:8000/process_pdf/"
         files = {"file": uploaded_file.getvalue()}
+
         try:
             response = requests.post(url, files=files)
             response.raise_for_status()
             result = response.json()
             st.success(result["message"])
-            st.session_state.file_processed = True  # Indicate file has been processed
-            st.session_state.question = "" #clear the question, after a new file has been processed.
+            # Indicate file has been processed
+            st.session_state.file_processed = True  
+            # clear the question, after a new file has been processed.
+            st.session_state.question = "" 
+
         except requests.exceptions.RequestException as e:
             st.error(f"Error processing document: {e}")
-            st.session_state.file_processed = False #reset to false if processing fails
+            # reset to false if processing fails
+            st.session_state.file_processed = False 
 
 
 # Ask a question
