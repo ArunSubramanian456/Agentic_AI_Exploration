@@ -9,3 +9,4 @@ pydantic[email,timezone]
 sqlalchemy 
 kaggle
 kagglehub
+langchain-openai
