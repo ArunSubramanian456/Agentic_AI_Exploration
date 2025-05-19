@@ -1,0 +1,11 @@
+Langchain
+langgraph
+python-dotenv
+ipykernel
+langchain-community
+pandas
+langchain-groq
+pydantic[email,timezone]
+sqlalchemy 
+kaggle
+kagglehub
