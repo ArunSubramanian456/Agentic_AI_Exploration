@@ -53,7 +53,7 @@ with st.expander("Example Questions", expanded=False):
 
 
 # Setup database
-st.session_state["db"] = SQLDatabase.from_uri("sqlite:///data/northwind.db")
+st.session_state["db"] = SQLDatabase.from_uri("sqlite:///./data/northwind.db")
 
 # STREAMLIT APP SIDEBAR
 
