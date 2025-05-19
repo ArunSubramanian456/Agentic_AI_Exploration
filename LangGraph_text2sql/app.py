@@ -1,5 +1,5 @@
 # from IPython.display import display, Image
-# import os
+import os
 
 from langchain_community.utilities import SQLDatabase
 from langsmith import Client
@@ -53,7 +53,8 @@ with st.expander("Example Questions", expanded=False):
 
 
 # Setup database
-st.session_state["db"] = SQLDatabase.from_uri("sqlite:///./data/northwind.db")
+db_path = os.path.join(os.path.dirname(__file__), "northwind.db")
+st.session_state["db"] = SQLDatabase.from_uri("sqlite:///{db_path}")
 
 # STREAMLIT APP SIDEBAR
 

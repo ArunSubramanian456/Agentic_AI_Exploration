@@ -10,3 +10,4 @@ sqlalchemy
 kaggle
 kagglehub
 langchain-openai
+streamlit

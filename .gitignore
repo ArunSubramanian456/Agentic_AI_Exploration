@@ -13,3 +13,5 @@ LangGraph_agents_with_memory/client.txt
 LangGraph_agents_with_memory/server.txt
 LangGraph_text2sql/app.txt
 LangGraph_text2sql/Text to MySQL Agent.ipynb
+LangGraph_text2sql/app.py
+LangGraph_text2sql/{db_path}
