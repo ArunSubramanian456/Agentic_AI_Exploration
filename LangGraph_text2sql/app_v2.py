@@ -137,7 +137,7 @@ if st.session_state["LANGSMITH_API_KEY"]:
     st.session_state["prompt"] = prompt.format(dialect = st.session_state["db"].dialect, top_k = 5)
 
 if st.session_state["llm"] and st.session_state["tools"] and st.session_state["prompt"]:
-    st.session_state["agent_executor"] = create_react_agent(model = st.session_state["llm"], tools = st.session_state["tools"], state_modifier=st.session_state["prompt"])
+    st.session_state["agent_executor"] = create_react_agent(model = st.session_state["llm"], tools = st.session_state["tools"], prompt=st.session_state["prompt"])
 
 st.sidebar.markdown(f"""<div class="footer" style="">Made with<span style="font-size:150%;color:red;"> &hearts; </span>by Arun</div>""", unsafe_allow_html=True)
 
