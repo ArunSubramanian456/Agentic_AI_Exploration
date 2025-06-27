@@ -1,0 +1,16 @@
+Langchain
+langchain-community
+langgraph
+langchain-openai
+langchain-groq
+python-dotenv
+ipykernel
+pandas
+numpy
+pydantic[email,timezone]
+streamlit
+matplotlib
+seaborn
+tabulate
+unstructured[md]
+nltk
