@@ -4,7 +4,6 @@ import pandas as pd
 from src.langgraphagenticai.state.state import State
 import os
 from langgraph.prebuilt import create_react_agent
-import re
 
 class node_data_cleaning:
     def __init__(self, model):
@@ -31,7 +30,7 @@ class node_data_cleaning:
                 raise ValueError("Input data is required for cleaning.")
             
             file_path = state['data_file_path']
-            parentdir_path = os.path.join(os.path.dirname(file_path),  "df_updated.parquet")
+            parentdir_path = os.path.join(os.path.dirname(file_path),  "df_updated.feather")
 
             # print(f"Parent directory: {parentdir_path}")
             profile_report = state["profile_report"]
@@ -53,7 +52,7 @@ class node_data_cleaning:
             You should double check the code to ensure the accuracy,completeness and safety of the code before executing it.
             Constraints:
 
-            1.  **Strictly Pandas DataFrame Operations:** You must only execute code that directly manipulates Pandas DataFrames (e.g., filtering, aggregation, merging, column transformations, saving as csv, etc.).
+            1.  **Strictly Pandas DataFrame Operations:** You must only execute code that directly manipulates Pandas DataFrames (e.g., filtering, aggregation, merging, column transformations, winsorization, saving as csv, etc.).
             2.  **No Library Imports:** The code provided will *not* contain any `import` statements. The `pandas` library will be pre-loaded and accessible via the `_globals` dictionary. Assume `pd` is already available as an alias for `pandas`.
             3.  **No Network Access:** Prohibit any operations that attempt to make network requests.
             4.  **No System Calls:** Prohibit any calls to `subprocess` or `os.system`.
@@ -89,7 +88,12 @@ class node_data_cleaning:
             ```python
             df['new_col'] = df['col1'] + df['col2']
             df_filtered = df[df['col3'] > 10]
+            numeric_cols = df.select_dtypes(include=np.number).columns.to_list()
+            for col in numeric_cols:
+                df[col] = winsorize(df[col], limits=[0.05, 0.95])
+                
             df_grouped = df.groupby('category')['value'].mean()
+
             df_grouped.to_csv('./grouped_output.csv', index=False)
             ```
             **Provide only the python code as the output**.
@@ -108,14 +112,17 @@ class node_data_cleaning:
 
             code = extract_code(result)
 
-            code_explanation = self.llm.invoke(f""" Explain this code {code}""").content
+            code_explanation = self.llm.invoke(f""" Explain this code {code} in a concise manner""").content
 
             data_cleaning_report = f"""Data Cleaning Code\n```python{code}```\n\nExplanation\n{code_explanation}"""
 
             df_updated = python_exec_tool_func(df, code)
             print(df_updated.info())
-            
-            df_updated.to_parquet(parentdir_path, index=False)
+
+            df_updated.to_feather(parentdir_path)
+
+            df_updated2 = pd.read_feather(parentdir_path)
+            print(df_updated2.info())
 
             state["data_cleaning_report"] = data_cleaning_report
           

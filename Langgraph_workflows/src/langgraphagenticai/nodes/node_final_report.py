@@ -70,6 +70,7 @@ class node_final_report:
             
             final_prompt='''
             You are an expert data analyst. Review the analysis report and share your conclusions and recommendations to improve the business.
+
             Your output should have
             - Conclusions based on the data analysis
             - Recommendations to the business

@@ -93,24 +93,42 @@ def load_langgraph_agenticai_app():
             st.error(f"Error: Graph setup failed - {e}")
             return
         
+
+        
         # Initialize graph. Get file path into the AgentState
         if st.session_state.stage == "START" and st.session_state.file_path is not None:
-            with st.spinner("Initializing Graph..."):
-                graph_response = graph_executor.initialize_graph(st.session_state.file_path)
-            st.session_state.thread_id = graph_response["thread_id"]
-            st.session_state.eda_state = graph_response["eda_state"]
-            st.session_state.stage = const.PROFILE_DATA
-            st.rerun()
+            default_data_dictionary = ":\n".join(df.columns)
+            data_dictionary = st.text_area(
+                    "Provide a data dictionary:",
+                    value=default_data_dictionary,
+                    height = 400)
+            kpi_list = df.columns.tolist()
+            kpi = st.selectbox(
+                "Select a taret metric of interest:",
+                options=kpi_list,
+                help=" Will be used to generate bivaraiate analysis and final recommendations.",
+            )
+            if not kpi:
+                st.error("Please select a target metric to proceed.")
+            else:
+                st.session_state.data_dictionary = data_dictionary.strip()
+                st.session_state.kpi = kpi.strip()
+                if st.button("Profile Data"):
+                    with st.spinner("Initializing Graph..."):
+                        graph_response = graph_executor.initialize_graph(st.session_state.file_path, st.session_state.data_dictionary, st.session_state.kpi)
+                    st.session_state.thread_id = graph_response["thread_id"]
+                    st.session_state.eda_state = graph_response["eda_state"]
+                    st.session_state.stage = const.PROFILE_DATA
+                    st.rerun()
 
         # Profile the data
         if st.session_state.stage == const.PROFILE_DATA:
             # st.write(st.session_state.eda_state)
-            if st.button("Profile Data"):
-                with st.spinner("Profiling Data..."):
-                    graph_response = graph_executor.graph_execution(st.session_state.thread_id, st.session_state.eda_state, const.PROFILE_DATA)
-                st.session_state.eda_state = graph_response["eda_state"]
-                st.session_state.stage = const.CLEAN_DATA
-                st.rerun()
+            with st.spinner("Profiling Data..."):
+                graph_response = graph_executor.graph_execution(st.session_state.thread_id, st.session_state.eda_state, const.PROFILE_DATA)
+            st.session_state.eda_state = graph_response["eda_state"]
+            st.session_state.stage = const.CLEAN_DATA
+            st.rerun()
         
         # Clean the data
         if st.session_state.stage == const.CLEAN_DATA:

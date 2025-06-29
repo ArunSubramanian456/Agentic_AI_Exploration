@@ -13,8 +13,10 @@ class LoadStreamlitUI:
     def initialize_session(self):
         st.session_state.stage = "START"
         st.session_state.thread_id = ""
+        st.session_state.data_dictionary = ""
         st.session_state.file_path = None
         st.session_state.eda_state = make_initial_state()
+        st.session_state.kpi = None
 
     def load_streamlit_ui(self):
         st.set_page_config(page_title=self.config.get_page_title(), page_icon=":robot_face:", layout="wide")

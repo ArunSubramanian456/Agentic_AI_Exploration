@@ -10,7 +10,7 @@ class GraphExecutor:
     def get_config(self, thread_id):
         return {"configurable": {"thread_id": thread_id}}
     
-    def initialize_graph(self, data_file_path):
+    def initialize_graph(self, data_file_path, data_dictionary, kpi):
         """
         Initiates the graph and store data file path in State
         """
@@ -24,6 +24,8 @@ class GraphExecutor:
         # resume the graph
         state = make_initial_state()
         state["data_file_path"] = data_file_path
+        state["data_dictionary"] = data_dictionary
+        state["target_metric"] = kpi
         
         for output in self.graph.stream(state, config, stream_mode="values"):
             state = output

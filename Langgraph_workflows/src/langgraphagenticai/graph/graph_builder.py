@@ -7,6 +7,7 @@ from src.langgraphagenticai.nodes.node_stats_summary import node_stats_summary
 from src.langgraphagenticai.nodes.node_univariate_analysis import node_univariate_analysis
 from src.langgraphagenticai.nodes.node_bivariate_analysis import node_bivariate_analysis
 from src.langgraphagenticai.nodes.node_final_report import node_final_report
+from langchain_core.runnables.graph import MermaidDrawMethod
 
 class GraphBuilder:
 
@@ -59,8 +60,20 @@ class GraphBuilder:
                               "bivariate_analysis", 
                               "final_step"],
             checkpointer = self.memory)
+        
+        # Save the graph image
+        # self.save_graph_image(app)
 
         return app
     
 
+    def save_graph_image(self,graph):
+        # Generate the PNG image
+        img_data = graph.get_graph().draw_mermaid_png(
+            draw_method=MermaidDrawMethod.API
+            )
 
+        # Save the image to a file
+        graph_path = "workflow_graph.png"
+        with open(graph_path, "wb") as f:
+            f.write(img_data)        

@@ -9,6 +9,8 @@ class State(TypedDict):
     """
     next_node: str
     data_file_path: Optional[str] # file path for input data
+    data_dictionary : Optional[str]  # Optional field for data dictionary
+    target_metric: Optional[str]  # Optional field for target metric
     profile_report: Optional[str]
     data_cleaning_report: Optional[str]
     stats_summary_report: Optional[str]
@@ -22,6 +24,8 @@ def make_initial_state() -> State:
     return {
         "next_node": "",
         "data_file_path": None,
+        "data_dictionary": None,  # Optional field for data dictionary
+        "target_metric": None,
         "profile_report": None,
         "data_cleaning_report": None,
         "stats_summary_report": None,
