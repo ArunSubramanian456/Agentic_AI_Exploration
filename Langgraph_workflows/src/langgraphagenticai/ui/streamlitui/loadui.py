@@ -57,6 +57,10 @@ class LoadStreamlitUI:
                 st.session_state.file_uploader_key += 1
 
                 st.rerun()
+
+            st.subheader("Workflow Overview")
+            st.image("workflow_graph.png")
+
             
 
         return self.user_controls
