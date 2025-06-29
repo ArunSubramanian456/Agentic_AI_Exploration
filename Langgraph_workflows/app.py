@@ -19,7 +19,7 @@ def check_file_loading():
         st.error(f"Error listing files: {e}")
 
     # 3. Check for the existence of your config file
-    config_file_path = os.path.join(current_working_dir, r"src\langgraphagenticai\ui\uiconfigfile.ini")  
+    config_file_path = os.path.join(current_working_dir, "src/langgraphagenticai/ui/uiconfigfile.ini")  
     if os.path.exists(config_file_path):
         st.success(f"**Config file found at:** `{config_file_path}`")
         # You can even try to read it to confirm it's readable
