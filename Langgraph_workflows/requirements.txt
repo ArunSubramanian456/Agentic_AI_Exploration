@@ -1,5 +1,6 @@
 Langchain
 langchain-community
+langchain_experimental
 langgraph
 langchain-openai
 langchain-groq
