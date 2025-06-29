@@ -38,27 +38,27 @@ class GraphExecutor:
         Executes the data profile report workflow for a given thread ID and State.
         """
         if stage == const.PROFILE_DATA:
-            state.next_node=const.CLEAN_DATA
+            state["next_node"]=const.CLEAN_DATA
             execute_as_node = START
 
         if stage == const.CLEAN_DATA:
-            state.next_node=const.SUMMARIZE_DATA
+            state["next_node"]=const.SUMMARIZE_DATA
             execute_as_node = const.PROFILE_DATA
 
         if stage == const.SUMMARIZE_DATA:
-            state.next_node=const.GENERATE_UNIVARIATE_REPORT
+            state["next_node"]=const.GENERATE_UNIVARIATE_REPORT
             execute_as_node = const.CLEAN_DATA
 
         if stage == const.GENERATE_UNIVARIATE_REPORT:
-            state.next_node=const.GENERATE_BIVARIATE_REPORT
+            state["next_node"]=const.GENERATE_BIVARIATE_REPORT
             execute_as_node = const.SUMMARIZE_DATA
 
         if stage == const.GENERATE_BIVARIATE_REPORT:
-            state.next_node=const.GENERATE_FINAL_REPORT
+            state["next_node"]=const.GENERATE_FINAL_REPORT
             execute_as_node = const.GENERATE_UNIVARIATE_REPORT
 
         if stage == const.GENERATE_FINAL_REPORT:
-            state.next_node=const.END_NODE
+            state["next_node"]=const.END_NODE
             execute_as_node = const.GENERATE_BIVARIATE_REPORT
 
         return self.update_and_resume_graph(state, thread_id, as_node=execute_as_node)
