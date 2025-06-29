@@ -65,7 +65,7 @@ class LoadStreamlitUI:
                 st.rerun()
 
             origin_dir = os.path.dirname(os.path.abspath(__file__))
-            img_path = os.path.join(origin_dir, "workflow_graph.png")
+            img_path = os.path.join(origin_dir, ".." , "workflow_graph.png")
 
             st.subheader("Workflow Overview")
             st.image(img_path)
