@@ -7,7 +7,7 @@ def check_file_loading():
     st.subheader("File System Debug Info")
 
     # 1. Print the current working directory
-    current_working_dir = os.getcwd()
+    current_working_dir = os.path.dirname(os.path.abspath(__file__))  # <-- **Replace with your actual path**)
     st.write(f"**Current Working Directory:** `{current_working_dir}`")
 
     # 2. List all files and directories in the current working directory
