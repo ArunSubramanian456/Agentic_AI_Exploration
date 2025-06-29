@@ -4,6 +4,7 @@ from src.langgraphagenticai.state.state import make_initial_state
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from src.langgraphagenticai.ui.config import Config
 import src.langgraphagenticai.utils.constants as const
+import os
 
 class LoadStreamlitUI:
     def __init__(self):
@@ -63,8 +64,11 @@ class LoadStreamlitUI:
 
                 st.rerun()
 
+            origin_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            img_path = os.path.join(origin_dir, "..", "workflow_graph.png")
+
             st.subheader("Workflow Overview")
-            st.image("workflow_graph.png")
+            st.image(img_path)
 
             
 
