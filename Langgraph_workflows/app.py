@@ -36,4 +36,4 @@ def check_file_loading():
 
 if __name__=="__main__":
     check_file_loading()
-    load_langgraph_agenticai_app()
+    # load_langgraph_agenticai_app()
