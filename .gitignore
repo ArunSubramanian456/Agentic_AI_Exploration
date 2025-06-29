@@ -15,3 +15,4 @@ LangGraph_text2sql/app.txt
 LangGraph_text2sql/Text to MySQL Agent.ipynb
 LangGraph_text2sql/app.py
 LangGraph_text2sql/{db_path}
+**/temp_data/
